@@ -1,12 +1,5 @@
-#region Namespaces
-using System;
-using System.Collections.Generic;
-using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Reflection;
-#endregion
 
 namespace RvtVa3c
 {

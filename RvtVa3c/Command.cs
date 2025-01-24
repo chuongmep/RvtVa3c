@@ -1,20 +1,12 @@
-#region Namespaces
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Windows.Interop;
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
 using System.Windows.Forms;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using DialogResult = System.Windows.Forms.DialogResult;
-#endregion // Namespaces
 
 namespace RvtVa3c
 {

@@ -233,16 +233,16 @@ namespace RvtVa3c
     Document _doc;
     string _filename;
     Va3cContainer _container;
-    Dictionary<string, Va3cContainer.Va3cMaterial> _materials;
+    Dictionary<string, Va3cMaterial> _materials;
     Dictionary<string, Va3cContainer.Va3cObject> _objects;
-    Dictionary<string, Va3cContainer.Va3cGeometry> _geometries;
+    Dictionary<string, Va3cGeometry> _geometries;
 
     Va3cContainer.Va3cObject _currentElement;
 
     // Keyed on material uid to handle several materials per element:
 
     Dictionary<string, Va3cContainer.Va3cObject> _currentObject;
-    Dictionary<string, Va3cContainer.Va3cGeometry> _currentGeometry;
+    Dictionary<string, Va3cGeometry> _currentGeometry;
     Dictionary<string, VertexLookupInt> _vertices;
 
     Stack<ElementId> _elementStack = new Stack<ElementId>();
@@ -260,7 +260,7 @@ namespace RvtVa3c
       }
     }
 
-    Va3cContainer.Va3cGeometry CurrentGeometryPerMaterial
+    Va3cGeometry CurrentGeometryPerMaterial
     {
       get
       {
@@ -299,10 +299,10 @@ namespace RvtVa3c
         Material material = _doc.GetElement(
           uidMaterial ) as Material;
 
-        Va3cContainer.Va3cMaterial m
-          = new Va3cContainer.Va3cMaterial();
+        Va3cMaterial m
+          = new Va3cMaterial();
 
-        //m.metadata = new Va3cContainer.Va3cMaterialMetadata();
+        //m.metadata = new Va3cMaterialMetadata();
         //m.metadata.type = "material";
         //m.metadata.version = 4.2;
         //m.metadata.generator = "RvtVa3c 2015.0.0.0";
@@ -340,10 +340,10 @@ namespace RvtVa3c
 
       if( !_currentGeometry.ContainsKey( uidMaterial ) )
       {
-        _currentGeometry.Add( uidMaterial, new Va3cContainer.Va3cGeometry() );
+        _currentGeometry.Add( uidMaterial, new Va3cGeometry() );
         CurrentGeometryPerMaterial.uuid = uid_per_material;
         CurrentGeometryPerMaterial.type = "Geometry";
-        CurrentGeometryPerMaterial.data = new Va3cContainer.Va3cGeometryData();
+        CurrentGeometryPerMaterial.data = new Va3cGeometryData();
         CurrentGeometryPerMaterial.data.faces = new List<int>();
         CurrentGeometryPerMaterial.data.vertices = new List<double>();
         CurrentGeometryPerMaterial.data.normals = new List<double>();
@@ -369,19 +369,19 @@ namespace RvtVa3c
 
     public bool Start()
     {
-      _materials = new Dictionary<string, Va3cContainer.Va3cMaterial>();
-      _geometries = new Dictionary<string, Va3cContainer.Va3cGeometry>();
+      _materials = new Dictionary<string, Va3cMaterial>();
+      _geometries = new Dictionary<string, Va3cGeometry>();
       _objects = new Dictionary<string, Va3cContainer.Va3cObject>();
 
       _transformationStack.Push( Transform.Identity );
 
       _container = new Va3cContainer();
 
-      _container.metadata = new Va3cContainer.Metadata();
+      _container.metadata = new Metadata();
       _container.metadata.type = "Object";
       _container.metadata.version = 4.3;
       _container.metadata.generator = "RvtVa3c Revit vA3C exporter";
-      _container.geometries = new List<Va3cContainer.Va3cGeometry>();
+      _container.geometries = new List<Va3cGeometry>();
 
       _container.obj = new Va3cContainer.Va3cObject();
       _container.obj.uuid = _doc.ActiveView.UniqueId;
@@ -591,8 +591,8 @@ namespace RvtVa3c
 
         if( !_materials.ContainsKey( uid ) )
         {
-          Va3cContainer.Va3cMaterial m
-            = new Va3cContainer.Va3cMaterial();
+          Va3cMaterial m
+            = new Va3cMaterial();
 
           m.uuid = uid;
           m.type = "MeshPhongMaterial";
@@ -704,7 +704,7 @@ namespace RvtVa3c
       _currentElement.uuid = uid;
 
       _currentObject = new Dictionary<string, Va3cContainer.Va3cObject>();
-      _currentGeometry = new Dictionary<string, Va3cContainer.Va3cGeometry>();
+      _currentGeometry = new Dictionary<string, Va3cGeometry>();
       _vertices = new Dictionary<string, VertexLookupInt>();
 
       if( null != e.Category
@@ -750,7 +750,7 @@ namespace RvtVa3c
       foreach( string material in materials )
       {
         Va3cContainer.Va3cObject obj = _currentObject[material];
-        Va3cContainer.Va3cGeometry geo = _currentGeometry[material];
+        Va3cGeometry geo = _currentGeometry[material];
 
         foreach( KeyValuePair<PointInt, int> p in _vertices[material] )
         {
@@ -803,7 +803,7 @@ namespace RvtVa3c
     public RenderNodeAction OnInstanceBegin( InstanceNode node )
     {
       Debug.WriteLine( "  OnInstanceBegin: " + node.NodeName 
-        + " symbol: " + node.GetSymbolId().IntegerValue );
+        + " symbol: " + node.GetSymbolGeometryId().SymbolId );
 
       // This method marks the start of processing a family instance
 
@@ -823,7 +823,7 @@ namespace RvtVa3c
 
     public RenderNodeAction OnLinkBegin( LinkNode node )
     {
-      Debug.WriteLine( "  OnLinkBegin: " + node.NodeName + " Document: " + node.GetDocument().Title + ": Id: " + node.GetSymbolId().IntegerValue );
+      Debug.WriteLine( "  OnLinkBegin: " + node.NodeName + " Document: " + node.GetDocument().Title + ": Id: " + node.SymbolId.IntegerValue );
       _transformationStack.Push( CurrentTransform.Multiply( node.GetTransform() ) );
       return RenderNodeAction.Proceed;
     }

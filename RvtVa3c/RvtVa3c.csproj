@@ -29,7 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <StartAction>Program</StartAction>
-    <StartProgram>$(ProgramW6432)\Autodesk\Revit 2015\Revit.exe</StartProgram>
+    <StartProgram>$(ProgramW6432)\Autodesk\Revit 2024\Revit.exe</StartProgram>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -40,7 +40,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <StartAction>Program</StartAction>
-    <StartProgram>$(ProgramW6432)\Autodesk\Revit 2020\Revit.exe</StartProgram>
+    <StartProgram>$(ProgramW6432)\Autodesk\Revit 2024\Revit.exe</StartProgram>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -50,11 +50,11 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPI.dll</HintPath>
+    <Reference Include="RevitAPI, Version=24.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+      <HintPath>..\packages\Chuongmep.Revit.Api.RevitAPI.2024.1.0\lib\net48\RevitAPI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPIUI.dll</HintPath>
+    <Reference Include="RevitAPIUI, Version=24.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+      <HintPath>..\packages\Chuongmep.Revit.Api.RevitAPIUI.2024.1.0\lib\net48\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="Metadata.cs" />
     <Compile Include="ParameterFilter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +78,9 @@
     <Compile Include="UserSettings.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Va3cExportContext.cs" />
+    <Compile Include="Va3cGeometry.cs" />
+    <Compile Include="Va3cGeometryData.cs" />
+    <Compile Include="Va3cMaterial.cs" />
     <Compile Include="Va3cObject.cs" />
     <Compile Include="Va3cScene.cs" />
   </ItemGroup>
